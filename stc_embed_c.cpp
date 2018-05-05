@@ -93,11 +93,11 @@ double stc_embed( const u8 *vector, int vectorlength, const u8 *syndrome, int sy
 
         invalpha = (double) vectorlength / syndromelength;
         if ( invalpha < 1 ) {
-            free( matrices );
-            free( widths );
-            if ( stego != NULL ) free( path );
-            printf("Exception: The message cannot be longer than the cover object.\n");
-            exit(0);
+            //free( matrices );
+            //free( widths );
+            //if ( stego != NULL ) free( path );
+            printf("Exception111: The message cannot be longer than the cover object.\n");
+            //exit(0);
             //throw stc_exception( "The message cannot be longer than the cover object.", 3 );
         }
         /* THIS IS OBSOLETE. Algorithm still works for alpha >1/2. You need to take care of cases with too many Infs in cost vector.

@@ -231,7 +231,7 @@ float get_lambda_distortion( uint n, uint k, float *costs, float distortion, flo
 }
 
 float binary_entropy_array( uint n, float *prob ) {
-
+    return 0;
     float h = 0;
     float const LOG2 = log( 2.0 );
     float const EPS = std::numeric_limits< float >::epsilon();
@@ -674,6 +674,7 @@ float stc_ml2_embed( uint cover_length, float* costs, int* stego_values, uint me
         align_delete< float > ( p );
         throw e;
     }
+    printf("num_msg_bits ---> %u %u\n", num_msg_bits[0], num_msg_bits[1]);
     delete[] p10;
     delete[] p20;
 
