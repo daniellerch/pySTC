@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import sys
 import stc
 
 stc.embed('files/1.pgm', 'files/message.txt', 's3cr3t', 'files/stego.png')

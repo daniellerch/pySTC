@@ -338,20 +338,6 @@ float stc_pm1_pls_embed( uint cover_length, int* cover, float* costs, uint messa
                          uint stc_constraint_height, float wet_cost,                                    // other input parameters
                          int* stego, uint* num_msg_bits, uint &max_trials, float* coding_loss ) {       // output variables
 
-    printf("cover_length: %d\n", cover_length);
-    printf("cover: %d, %d, %d\n", cover[0], cover[7], cover[cover_length-1]);
-    printf("costs: %f, %f, %f\n", costs[0], costs[1], costs[2]);
-    //printf("stego: %d, %d\n", stego[0], stego[7]);
-    printf("message_length: %d\n", message_length);
-    printf("message: %d, %d, %d\n", message[0], message[1], message[2]);
-    printf("stc_constraint_height: %d\n", stc_constraint_height);
-    //printf("coding_loss: %f\n", *coding_loss);
-    printf("max_trials: %d\n", max_trials);
-    printf("wet_cost: %f\n", wet_cost);
-    printf("num_msg_bits: %d, %d\n", num_msg_bits[0], num_msg_bits[1]);
-
-
-
 
     return stc_pm1_dls_embed( cover_length, cover, costs, message_length, message, F_INF, stc_constraint_height, 0, wet_cost, stego,
             num_msg_bits, max_trials, coding_loss );
@@ -678,7 +664,6 @@ float stc_ml2_embed( uint cover_length, float* costs, int* stego_values, uint me
         align_delete< float > ( p );
         throw e;
     }
-    printf("num_msg_bits ---> %u %u\n", num_msg_bits[0], num_msg_bits[1]);
     delete[] p10;
     delete[] p20;
 

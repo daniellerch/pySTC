@@ -98,7 +98,6 @@ def embed(input_img_path, msg_file_path, password, output_img_path, payload=0.40
 
     # Prepare message
     msg_bits = prepare_message(msg_file_path, aes_key)
-    print "msg len:", len(msg_bits)
     if len(msg_bits)>width*height*payload:
         print "Message too long"
         sys.exit(0)
@@ -112,7 +111,6 @@ def embed(input_img_path, msg_file_path, password, output_img_path, payload=0.40
     # Hide message
     stego = (c_int*(width*height))()
     a = lib.stc_hide(width*height, cover, costs, m, message, stego)
-    print a, cover[4], stego[4]
 
     # Save output message
     idx=0
