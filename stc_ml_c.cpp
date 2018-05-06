@@ -638,7 +638,10 @@ float stc_ml2_embed( uint cover_length, float* costs, int* stego_values, uint me
     /* LAYER OF 2ND LSBs */
     for ( uint i = 0; i < cover_length; i++ )
         p20[i] = p[i] + p[i + n]; // p20 = p(1,:)+p(2,:);         % probability of 2nd LSB of stego equal 0
-    num_msg_bits[1] = (uint) floor( binary_entropy_array( cover_length, p20 ) ); // msg_bits(2) = floor(sum(binary_entropy(p20)));    % number of msg bits embedded into 2nd LSBs
+    //num_msg_bits[1] = (uint) floor( binary_entropy_array( cover_length, p20 ) ); // msg_bits(2) = floor(sum(binary_entropy(p20)));    % number of msg bits embedded into 2nd LSBs
+    //num_msg_bits[1] = (uint) message_length/3;
+    //num_msg_bits[1] = (uint) (0.40*cover_length/3);
+    num_msg_bits[1] = (uint) (message_length/3);
     try {
         stc_embed_trial( cover_length, p20, message, stc_constraint_height, num_msg_bits[1], perm2, stego2, trial, max_trials, "cost2.txt" );
     } catch ( stc_exception& e ) {
@@ -659,7 +662,8 @@ float stc_ml2_embed( uint cover_length, float* costs, int* stego_values, uint me
         p10[i] = p[i] / (p[i] + p[i + n]); // p10(i) = p(1,i)/(p(1,i)+p(2,i));
         else // % conditional probability of 1st LSB of stego equal 0 given LSB2=1
         p10[i] = p[i + 2 * n] / (p[i + 2 * n] + p[i + 3 * n]); // p10(i) = p(3,i)/(p(3,i)+p(4,i));
-    num_msg_bits[0] = m_actual - num_msg_bits[1]; // msg_bits(1) = m_actual-msg_bits(2); % number of msg bits embedded into 1st LSBs
+    //num_msg_bits[0] = m_actual - num_msg_bits[1]; // msg_bits(1) = m_actual-msg_bits(2); % number of msg bits embedded into 1st LSBs
+    num_msg_bits[0] = num_msg_bits[1];
     try {
         stc_embed_trial( cover_length, p10, message + num_msg_bits[1], stc_constraint_height, num_msg_bits[0], perm1, stego1, trial,
                 max_trials, "cost1.txt" );
@@ -774,7 +778,9 @@ float stc_ml3_embed( uint cover_length, float* costs, int* stego_values, uint me
     /* LAYER OF 3RD LSBs */
     for ( uint i = 0; i < cover_length; i++ )
         p30[i] = p[i] + p[i + n] + p[i + 2 * n] + p[i + 3 * n]; //
-    num_msg_bits[2] = (uint) floor( binary_entropy_array( cover_length, p30 ) ); //
+    //num_msg_bits[2] = (uint) floor( binary_entropy_array( cover_length, p30 ) ); //
+    //num_msg_bits[2] = (uint) (0.40*cover_length/3);
+    num_msg_bits[2] = (uint) (message_length/3);
     try {
         stc_embed_trial( cover_length, p30, message, stc_constraint_height, num_msg_bits[2], perm3, stego3, trial, max_trials, "cost3.txt" );
     } catch ( stc_exception& e ) {
@@ -797,7 +803,10 @@ float stc_ml3_embed( uint cover_length, float* costs, int* stego_values, uint me
         int s = 4 * stego3[perm3[i]]; // % conditional probability of 2nd LSB of stego equal 0 given LSB3
         p20[i] = (p[i + s * n] + p[i + (s + 1) * n]) / (p[i + s * n] + p[i + (s + 1) * n] + p[i + (s + 2) * n] + p[i + (s + 3) * n]);
     }
-    num_msg_bits[1] = (uint) floor( binary_entropy_array( cover_length, p20 ) );// msg_bits(2) = floor(sum(binary_entropy(p20)));    % number of msg bits embedded into 2nd LSBs
+    //num_msg_bits[1] = (uint) floor( binary_entropy_array( cover_length, p20 ) );// msg_bits(2) = floor(sum(binary_entropy(p20)));    % number of msg bits embedded into 2nd LSBs
+    //num_msg_bits[1] = (uint) message_length/3;
+    //num_msg_bits[1] = (uint) (0.40*cover_length/3);
+    num_msg_bits[1] = (uint) (message_length/3);
     try {
         stc_embed_trial( cover_length, p20, message + num_msg_bits[2], stc_constraint_height, num_msg_bits[1], perm2, stego2, trial,
                 max_trials, "cost2.txt" );

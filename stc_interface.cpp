@@ -66,8 +66,8 @@ int stc_unhide(
     ) {
 
     unsigned int* num_msg_bits = new unsigned int[2];
-    num_msg_bits[0] = message_length;
-    num_msg_bits[1] = 0;
+    num_msg_bits[0] = (uint)(message_length/3);
+    num_msg_bits[1] = num_msg_bits[0];
     std::cout << "b:" << num_msg_bits[0] << std::endl;
     std::cout << "b:" << num_msg_bits[1] << std::endl;
     stc_ml_extract(stego_length, stego, 2, num_msg_bits, h, message);

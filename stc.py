@@ -59,13 +59,16 @@ def embed(input_img_path, msg_file_path, output_img_path, payload=0.40):
     if len(msg_bits)>width*height*payload:
         print "Message too long"
         sys.exit(0)
-    message = (c_ubyte*len(msg_bits))()
-    for i in range(len(msg_bits)):
-        message[i] = msg_bits[i]
- 
+    m = int(width*height*payload)
+    message = (c_ubyte*m)()
+    for i in range(m):
+        if i<len(msg_bits):
+            message[i] = msg_bits[i]
+        else:
+            message[i] = 0
     # Hide message
     stego = (c_int*(width*height))()
-    a = lib.stc_hide(width*height, cover, costs, len(msg_bits), message, stego)
+    a = lib.stc_hide(width*height, cover, costs, m, message, stego)
     print a, cover[4], stego[4]
 
     # Save output message
@@ -79,7 +82,7 @@ def embed(input_img_path, msg_file_path, output_img_path, payload=0.40):
     
 
 
-def extract(stego_img_path, output_msg_path):
+def extract(stego_img_path, output_msg_path, payload=0.40):
 
     me = os.path.abspath(os.path.dirname(__file__))
     lib = cdll.LoadLibrary(os.path.join(me, "lib", "stc.so"))
@@ -100,8 +103,9 @@ def extract(stego_img_path, output_msg_path):
 
     # Extract the message
     n = width*height;
-    extracted_message = (c_ubyte*n)()
-    s = lib.stc_unhide(n, stego, 5984, extracted_message)
+    m = int(n*payload)
+    extracted_message = (c_ubyte*m)()
+    s = lib.stc_unhide(n, stego, m, extracted_message)
 
     # Save the message
     f = open(output_msg_path, 'w')
