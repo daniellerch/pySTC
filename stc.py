@@ -7,6 +7,7 @@ import random
 import struct
 from ctypes import *
 from PIL import Image
+from Crypto.Hash import SHA256
 from Crypto.Cipher import AES
 from Crypto import Random
 
@@ -53,10 +54,15 @@ class AESCipher:
 
 
 
-def embed(input_img_path, msg_file_path, output_img_path, payload=0.40):
+def embed(input_img_path, msg_file_path, password, output_img_path, payload=0.40):
 
     me = os.path.abspath(os.path.dirname(__file__))
     lib = cdll.LoadLibrary(os.path.join(me, "lib", "stc.so"))
+
+    # hash key
+    hash = SHA256.new()
+    hash.update(password)
+    aes_key=hash.digest()
 
     # Prepare cover image
     im=Image.open(input_img_path)
@@ -91,7 +97,7 @@ def embed(input_img_path, msg_file_path, output_img_path, payload=0.40):
             costs[3*i+2] = 1
 
     # Prepare message
-    msg_bits = prepare_message(msg_file_path, "0123456789012345")
+    msg_bits = prepare_message(msg_file_path, aes_key)
     print "msg len:", len(msg_bits)
     if len(msg_bits)>width*height*payload:
         print "Message too long"
@@ -119,7 +125,7 @@ def embed(input_img_path, msg_file_path, output_img_path, payload=0.40):
     
 
 
-def extract(stego_img_path, output_msg_path, payload=0.40):
+def extract(stego_img_path, password, output_msg_path, payload=0.40):
 
     me = os.path.abspath(os.path.dirname(__file__))
     lib = cdll.LoadLibrary(os.path.join(me, "lib", "stc.so"))
@@ -157,8 +163,13 @@ def extract(stego_img_path, output_msg_path, payload=0.40):
         bitval |= b<<bitidx
         bitidx+=1
 
+    # hash key
+    hash = SHA256.new()
+    hash.update(password)
+    aes_key=hash.digest()
+
     # decrypt
-    aes = AESCipher("0123456789012345")
+    aes = AESCipher(aes_key)
     cleartext = aes.decrypt(enc)
  
     # Extract the header and the message
