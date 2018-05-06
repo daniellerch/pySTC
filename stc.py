@@ -4,16 +4,27 @@ import sys
 import os.path
 import math
 import random
+import struct
 from ctypes import *
 from PIL import Image
 from Crypto.Cipher import AES
 from Crypto import Random
 
-def read_and_encrypt(filename, key):
-    array=[]
-    f=open(filename, 'r')
+def prepare_message(filename, key):
+
+    f = open(filename, 'r')
+    content_data = f.read()
+
+    # Prepare a header with basic data about the message
+    content_ver=struct.pack("B", 1) # version 1
+    content_len=struct.pack("!I", len(content_data))
+    content=content_ver+content_len+content_data
+
+    # encrypt
     aes = AESCipher(key)
-    enc = aes.encrypt(f.read())
+    enc = aes.encrypt(content)
+
+    array=[]
     bytes = (ord(b) for b in enc)
     for b in bytes:
         for i in xrange(8):
@@ -80,7 +91,7 @@ def embed(input_img_path, msg_file_path, output_img_path, payload=0.40):
             costs[3*i+2] = 1
 
     # Prepare message
-    msg_bits = read_and_encrypt(msg_file_path, "0123456789012345")
+    msg_bits = prepare_message(msg_file_path, "0123456789012345")
     print "msg len:", len(msg_bits)
     if len(msg_bits)>width*height*payload:
         print "Message too long"
@@ -146,9 +157,17 @@ def extract(stego_img_path, output_msg_path, payload=0.40):
         bitval |= b<<bitidx
         bitidx+=1
 
+    # decrypt
     aes = AESCipher("0123456789012345")
+    cleartext = aes.decrypt(enc)
+ 
+    # Extract the header and the message
+    content_ver=struct.unpack_from("B", cleartext, 0)
+    content_len=struct.unpack_from("!I", cleartext, 1)
+    content=cleartext[5:content_len[0]+5]
+
     f = open(output_msg_path, 'w')
-    f.write(aes.decrypt(enc))
+    f.write(content)
     f.close()
 
 
