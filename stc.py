@@ -54,7 +54,7 @@ class AESCipher:
 
 
 
-def embed(input_img_path, msg_file_path, password, output_img_path, payload=0.40):
+def embed(input_img_path, cost_matrix,  msg_file_path, password, output_img_path, payload=0.40):
 
     me = os.path.abspath(os.path.dirname(__file__))
     lib = cdll.LoadLibrary(os.path.join(me, "lib", "stc.so"))
@@ -82,19 +82,22 @@ def embed(input_img_path, msg_file_path, password, output_img_path, payload=0.40
     # Prepare costs
     INF = 2**31-1
     costs = (c_float*(width*height*3))()
-    for i in range(width*height):
-        if cover[i]==0:
-            costs[3*i+0] = INF
-            costs[3*i+1] = 0
-            costs[3*i+2] = 1
-        elif cover[i]==255:
-            costs[3*i+0] = 1   
-            costs[3*i+1] = 0 
-            costs[3*i+2] = INF
-        else:
-            costs[3*i+0] = 1
-            costs[3*i+1] = 0
-            costs[3*i+2] = 1
+    idx=0
+    for j in range(height):
+        for i in range(width):
+            if cover[idx]==0:
+                costs[3*idx+0] = INF
+                costs[3*idx+1] = 0
+                costs[3*idx+2] = cost_matrix[i, j]
+            elif cover[idx]==255:
+                costs[3*idx+0] = cost_matrix[i, j]
+                costs[3*idx+1] = 0 
+                costs[3*idx+2] = INF
+            else:
+                costs[3*idx+0] = cost_matrix[i, j]
+                costs[3*idx+1] = 0
+                costs[3*idx+2] = cost_matrix[i, j]
+            idx += 1
 
     # Prepare message
     msg_bits = prepare_message(msg_file_path, aes_key)
