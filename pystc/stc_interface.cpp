@@ -10,7 +10,16 @@
 
 #include <Python.h>
 
-
+extern "C" PyMODINIT_FUNC PyInit_stc_extension(void) {
+    static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "stc_extension",
+        NULL,
+        -1,
+        NULL, NULL, NULL, NULL, NULL
+    };
+    return PyModule_Create(&moduledef);
+}
 
 
 uint h = 10;    // constraint height of STC code

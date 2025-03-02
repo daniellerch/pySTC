@@ -26,13 +26,25 @@ stc_extension = Extension(
 )
 
 
-setup(name = 'PySTC',
-      version = '0.1',
+setup(name = 'pystcstego',
+      version = '0.1.0',
       author="Daniel Lerch Hostalot",
       author_email="dlerch@gmail.com",
       url="https://github.com/daniellerch/pySTC",
       description = 'A Python interface for Syndrome Trellis Codes Steganography',
+      long_description=open("README.md").read(),
+      long_description_content_type="text/markdown",
+       install_requires=[
+        "numpy",
+      ],
       packages=find_packages(),
-      ext_modules = [stc_extension])
+      ext_modules = [stc_extension],
+      classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+      ],
+      python_requires='>=3.6',
+)
 
 
