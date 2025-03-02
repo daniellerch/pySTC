@@ -13,13 +13,14 @@ field of steganography.
 
 ## Installation
 
-To install **pySTC**, you can use the precompiled binaries available in the `dist` directory. This ensures compatibility and simplifies the installation process. Run the following command:
+To install **pySTC**, simply use `pip`:
 
 ```bash
-pip install dist/pySTC-*.whl
+pip install pystcstego
 ```
 
-Replace * with the appropriate version of the wheel file.
+This will install the latest version of pySTC along with its dependencies.
+
 
 ## Usage
 
