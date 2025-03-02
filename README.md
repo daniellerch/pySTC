@@ -23,7 +23,9 @@ Replace * with the appropriate version of the wheel file.
 
 ## Usage
 
-Below is an example of how to use pySTC for embedding and extracting messages using Syndrome-Trellis Codes:
+Below is an example of how to use pySTC for embedding and extracting messages using Syndrome-Trellis Codes. 
+In this example, we have performed the cost calculation using HILL as defined in the paper 
+- [A New Cost Function for Spatial Image Steganography](https://doi.org/10.1109/ICIP.2014.7025854) by Bin Li, Ming Wang, Jiwu Huang and Xiaolong Li.
 
 
 ```python
