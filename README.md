@@ -4,7 +4,7 @@
 in steganography to minimize embedding distortion when hiding information within 
 digital media. STCs are linear convolutional codes represented by a 
 parity-check matrix, allowing efficient embedding while preserving the quality 
-of the cover medium. ([dde.binghamton.edu](https://dde.binghamton.edu/filler/pdf/Fill10tifs-stc.pdf))
+of the cover medium.
 
 This library is based on the **C++ implementation of Syndrome-Trellis Codes** 
 available at [Binghamton University's STC repository](http://dde.binghamton.edu/download/syndrome/). 
@@ -68,10 +68,20 @@ print("Extracted:", message_extracted.decode())
 
 
 ## Acknowledgments
-This project uses C++ code from [Binghamton University's STC repository](http://dde.binghamton.edu/download/syndrome/).
+Part of the C/C++ code used by HStego comes from the [Digital Data Embedding Laboratory](http://dde.binghamton.edu/download/).
 We sincerely appreciate their work in developing and sharing this technology.
+
+These methods are described in the following papers:
+
+- [Minimizing Embedding Impact in Steganography using Trellis-Coded Quantization](https://doi.org/10.1117/12.838002) by Tomas Filler, Jan Judas and Jessica Fridrich.
+
+- [Minimizing Additive Distortion Functions With Non-Binary Embedding Operation in Steganography](https://doi.org/10.1109/WIFS.2010.5711444) by Tomas Filler and Jessica Fridrich.
+
+- [Minimizing Additive Distortion in Steganography using Syndrome-Trellis Codes](https://doi.org/10.1109/TIFS.2011.2134094) by Tomas Filler, Jan Judas and Jessica Fridrich.
+
 
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](/LICENSE.txt) file for more details.
+
 
