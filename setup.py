@@ -34,7 +34,7 @@ setup(name = 'pystcstego',
       description = 'A Python interface for Syndrome Trellis Codes Steganography',
       long_description=open("README.md").read(),
       long_description_content_type="text/markdown",
-       install_requires=[
+      install_requires=[
         "numpy",
       ],
       packages=find_packages(),

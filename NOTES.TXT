@@ -1,0 +1,14 @@
+
+
+python3 setup.py sdist bdist_wheel
+
+pip3 install --break-system-packages .
+pip3 uninstall --break-system-packages PySTC
+
+
+wheel tags --platform-tag manylinux2014_x86_64 dist/pystcstego-0.1.0-cp312-cp312-linux_x86_64.whl
+
+twine upload -u __token__ -p <TOKEN> dist/*
+pip3 install --break-system-packages pystcstego
+
+
